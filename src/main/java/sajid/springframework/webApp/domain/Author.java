@@ -1,6 +1,7 @@
 package sajid.springframework.webApp.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -8,29 +9,27 @@ import java.util.Set;
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String Id;
+    private Long Id;
     private String firstName;
     private String lastName;
 
-    @ManyToMany
-    @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private Set<Book> books;
+    @ManyToMany(mappedBy = "authors")
+    private Set<Book> books = new HashSet<>();
 
     public Author() {
     }
 
-    public String getId() {
+    public Author(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public Long getId() {
         return Id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         Id = id;
-    }
-
-    public Author(String firstName, String lastName, Set<Book> books) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.books = books;
     }
 
     public String getFirstName() {
